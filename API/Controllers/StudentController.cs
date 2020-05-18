@@ -17,13 +17,20 @@ namespace API.Controllers
             this.unitofWork = unitofWork;
         }
 
-       [HttpGet]
-       public async Task<ActionResult<List<Student>>> GetStudents()
+        [HttpGet]
+        public async Task<ActionResult<List<Student>>> GetStudents()
         {
-         var students =   await unitofWork.StudentRepository.GetAllAsync();
+            var students = await unitofWork.StudentRepository.GetAllAsync();
 
             return Ok(students);
 
+        }
+
+        [HttpGet("{StudentId}")]
+        public async Task<ActionResult<Student>> GetStudentAsync(int studentId)
+        {
+            var student = await unitofWork.StudentRepository.GetAsync(studentId);
+            return Ok(student);
         }
         //[ValidateAntiForgeryToken]
         [HttpPost]
@@ -42,6 +49,7 @@ namespace API.Controllers
 
             }
             unitofWork.Save();
+
             return Ok(student);
 
         }
